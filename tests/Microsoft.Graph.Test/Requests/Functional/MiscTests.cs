@@ -6,7 +6,7 @@ using Async = System.Threading.Tasks;
 
 namespace Microsoft.Graph.Test.Requests.Functional
 {
-    [Ignore]
+    //[Ignore]
     [TestClass]
     public class MiscTests : GraphTestBase
     {
@@ -37,6 +37,22 @@ namespace Microsoft.Graph.Test.Requests.Functional
             catch (ServiceException e)
             {
                 Assert.Fail(e.Error.ToString());
+            }
+        }
+
+        [TestMethod]
+        public async Async.Task DeleteMe()
+        {
+            try
+            {
+                var users = await graphClient.Me.People.Request().GetAsync();
+                //await graphClient.Education.Classes["dummyClassId"].Teachers.References.Request().AddAsync(new EducationUser() { Id = "dummyUserId" });
+
+                Assert.Fail("Expected an exception if this was setup correctly.");
+            }
+            catch (ServiceException ex)
+            {
+                Assert.IsInstanceOfType(ex.InnerException, typeof(Async.TaskCanceledException), "Unexpected inner exception thrown.");
             }
         }
 
